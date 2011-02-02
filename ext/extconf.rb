@@ -6,11 +6,13 @@ BUNDLE = Dir.glob("libmemcached-*.tar.gz").first
 BUNDLE_PATH = BUNDLE.sub(".tar.gz", "")
 
 SOLARIS_32 = RbConfig::CONFIG['target'] == "i386-pc-solaris2.10"
+APPLE_DARWIN = !!RbConfig::CONFIG['target'].match(/apple-darwin/)
 
 $CFLAGS = "#{RbConfig::CONFIG['CFLAGS']} #{$CFLAGS}".gsub("$(cflags)", "").gsub("-fno-common", "")
 $CFLAGS << " -std=gnu99" if SOLARIS_32
 $EXTRA_CONF = " --disable-64bit" if SOLARIS_32
 $LDFLAGS = "#{RbConfig::CONFIG['LDFLAGS']} #{$LDFLAGS} -L#{RbConfig::CONFIG['libdir']}".gsub("$(ldflags)", "").gsub("-fno-common", "")
+$LDFLAGS << " -undefined suppress" if APPLE_DARWIN
 $CXXFLAGS = " -std=gnu++98 #{$CFLAGS}"
 $CPPFLAGS = $ARCH_FLAG = $DLDFLAGS = ""
 
