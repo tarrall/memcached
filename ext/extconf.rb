@@ -12,7 +12,6 @@ $CFLAGS = "#{RbConfig::CONFIG['CFLAGS']} #{$CFLAGS}".gsub("$(cflags)", "").gsub(
 $CFLAGS << " -std=gnu99" if SOLARIS_32
 $EXTRA_CONF = " --disable-64bit" if SOLARIS_32
 $LDFLAGS = "#{RbConfig::CONFIG['LDFLAGS']} #{$LDFLAGS} -L#{RbConfig::CONFIG['libdir']}".gsub("$(ldflags)", "").gsub("-fno-common", "")
-$LDFLAGS << " -undefined suppress" if APPLE_DARWIN
 $CXXFLAGS = " -std=gnu++98 #{$CFLAGS}"
 $CPPFLAGS = $ARCH_FLAG = $DLDFLAGS = ""
 
@@ -115,4 +114,5 @@ if ENV['SWIG']
 end
 
 $CFLAGS << " -Os"
+$LDFLAGS << " -undefined suppress" if APPLE_DARWIN
 create_makefile 'rlibmemcached'
