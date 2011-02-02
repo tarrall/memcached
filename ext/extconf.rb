@@ -114,5 +114,5 @@ if ENV['SWIG']
 end
 
 $CFLAGS << " -Os"
-$LDFLAGS << " -undefined suppress" if APPLE_DARWIN
+$LDFLAGS << " -flat_namespace -undefined suppress" if APPLE_DARWIN
 create_makefile 'rlibmemcached'
